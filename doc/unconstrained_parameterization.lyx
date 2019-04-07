@@ -1,0 +1,472 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+We use three different but related parameterizations: simplicial constraints,
+ box constraints, and positivity constraints.
+\begin_inset Formula 
+\begin{eqnarray*}
+f & = & \textrm{Function to be differentiated}\\
+x & = & \textrm{Unconstrained parameter for optimization }\in\mathbb{R}\\
+y & = & \textrm{Constrained variational parameter}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are given 
+\begin_inset Formula $\frac{df}{d\vec{y}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\frac{d^{2}f}{d\vec{y}d\vec{y}}$
+\end_inset
+
+ and need to convert to 
+\begin_inset Formula $\frac{df}{d\vec{x}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\frac{d^{2}f}{d\vec{x}d\vec{x}}$
+\end_inset
+
+.
+ This requires the Jacobian 
+\begin_inset Formula $\frac{d\vec{y}}{d\vec{x}}$
+\end_inset
+
+ and the vector of Hessians 
+\begin_inset Formula $\frac{d^{2}\vec{y}}{d\vec{x}d\vec{x}}$
+\end_inset
+
+, that is 
+\begin_inset Formula $\frac{d\textrm{Constrained}}{d\textrm{Unconstrained}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Base transforms
+\end_layout
+
+\begin_layout Standard
+Simplex constraints can be unconstrained with the parameterization
+\begin_inset Formula 
+\begin{eqnarray*}
+z_{i} & \in & [0,1]\\
+\sum_{i=1}^{n}z_{i} & = & 1\\
+z_{i} & = & \frac{e^{r_{i}}}{\sum_{i=1}^{n-1}e^{r_{i}}+1},i=1,...,n-1\\
+z_{n} & = & \frac{1}{\sum_{i=1}^{n-1}e^{r_{i}}+1}\\
+\exp r_{i} & = & \frac{z_{i}}{z_{n}}\Rightarrow\\
+r_{i} & = & \log z_{i}-\log z_{n}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The derivatives are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{dz_{i}}{dr_{j}} & = & \left(\frac{e^{r_{i}}}{\sum_{i=1}^{n-1}e^{r_{i}}+1}\right)\left(\frac{-e^{r_{j}}}{\sum_{i=1}^{n-1}e^{r_{i}}+1}\right)=-z_{i}z_{j}\textrm{ for }j\ne i\textrm{ and }i,j<n\\
+\frac{dz_{i}}{dr_{i}} & = & =\left(\frac{e^{r_{i}}}{\sum_{i=1}^{n-1}e^{r_{i}}+1}\right)-\left(\frac{e^{r_{i}}}{\sum_{i=1}^{n-1}e^{r_{i}}+1}\right)^{2}=z_{i}\left(1-z_{i}\right)\textrm{ for }i<n\\
+\frac{dz_{n}}{dr_{i}} & = & \left(\frac{1}{\sum_{i=1}^{n-1}e^{r_{i}}+1}\right)\left(\frac{-e^{r_{j}}}{\sum_{i=1}^{n-1}e^{r_{i}}+1}\right)=-z_{n}z_{i}\textrm{ for }i<n
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Second derivatives are given by
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{d^{2}z_{i}}{dr_{j}dr_{k}} & = & \frac{d}{dr_{k}}\left(-z_{i}z_{j}\right)=-\left(-z_{i}z_{k}\right)z_{j}-\left(-z_{j}z_{k}\right)z_{i}=2z_{i}z_{j}z_{k}\textrm{ for }i\ne j\ne k\ne i\\
+\frac{d^{2}z_{i}}{dr_{j}dr_{j}} & = & \frac{d}{dr_{j}}\left(-z_{i}z_{j}\right)=-\left(-z_{i}z_{j}\right)z_{j}-z_{i}z_{j}\left(1-z_{j}\right)=z_{i}z_{j}\left(z_{j}-1+z_{j}\right)=-z_{i}z_{j}\left(1-2z_{j}\right)\\
+\frac{d^{2}z_{i}}{dr_{i}dr_{k}} & = & \frac{d}{dr_{i}}\left(-z_{i}z_{k}\right)=-z_{i}\left(1-z_{i}\right)z_{k}-\left(-z_{i}z_{k}\right)z_{i}=-z_{i}z_{k}\left(\left(1-z_{i}\right)-z_{i}\right)=-z_{i}z_{k}\left(1-2z_{i}\right)\\
+\frac{d^{2}z_{i}}{dr_{i}dr_{i}} & = & \frac{d}{dr_{i}}\left(z_{i}-z_{i}^{2}\right)=z_{i}\left(1-z_{i}\right)-2z_{i}z_{i}\left(1-z_{i}\right)=z_{i}\left(\left(1-z_{i}\right)-2z_{i}\left(1-z_{i}\right)\right)=z_{i}\left(1-z_{i}\right)\left(1-2z_{i}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the binary case, 
+\begin_inset Formula $n=2$
+\end_inset
+
+ and
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{df}{dr} & = & \frac{df}{dz_{1}}z_{1}\left(1-z_{1}\right)-\frac{df}{dz_{2}}z_{1}z_{2}\\
+ & = & \left(\frac{df}{dz_{1}}-\frac{df}{dz_{2}}\right)z_{1}\left(1-z_{1}\right)\\
+ & = & \frac{df}{dz_{1}}z_{1}\left(1-z_{1}\right)\textrm{ (if a full derivative already)}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Positive numbers can be parameterized with
+\begin_inset Formula 
+\begin{eqnarray*}
+z & = & \exp r\\
+\frac{dz}{dr}=\frac{d^{2}z}{dr^{2}} & = & z
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Scaled and boxed transforms
+\end_layout
+
+\begin_layout Standard
+The transforms from the previous section are boxed and scaled to give the
+ final constrained parameter.
+\begin_inset Formula 
+\begin{eqnarray*}
+r & = & \alpha x\\
+\frac{dr}{dx} & = & \alpha
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For positivity constraints:
+\begin_inset Formula 
+\begin{eqnarray*}
+y_{i} & = & z_{i}+z_{min}\\
+\frac{dy_{i}}{dx_{i}} & = & \alpha_{i}\frac{dz_{i}}{dr_{i}}=\alpha_{i}z_{i}\\
+\frac{d^{2}y_{i}}{dx_{i}dx_{i}} & = & \alpha_{i}^{2}\frac{d^{2}z_{i}}{dr_{i}dr_{i}}=\alpha_{i}^{2}z_{i}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ is not in a simplex but simply constrained to be in a box, then:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+y_{i} & = & z_{i}\left(z_{max}-z_{min}\right)+z_{min}\\
+\frac{dy_{i}}{dx_{i}} & = & \frac{dy_{i}}{dz_{i}}\frac{dz_{i}}{dr_{i}}\frac{dr_{i}}{dx_{i}}=\alpha_{j}\left(z_{max}-z_{min}\right)\frac{dz_{i}}{dr_{i}}=\alpha_{i}\left(z_{max}-z_{min}\right)z_{i}\left(1-z_{i}\right)\\
+\frac{d^{2}y_{i}}{dx_{i}dx_{i}} & = & \alpha_{j}z_{max}\frac{d}{x_{i}}\left(\frac{dz_{i}}{dr_{i}}\right)=\alpha_{i}^{2}\left(z_{max}-z_{min}\right)\frac{d^{2}z_{i}}{dr_{i}dr_{i}}=\alpha_{i}^{2}\left(z_{max}-z_{min}\right)z_{i}\left(1-z_{i}\right)\left(1-2z_{i}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For simplexes, the situation is a little more complex.
+ We want to require
+\begin_inset Formula 
+\begin{eqnarray*}
+y_{i} & \ge & z_{min}\\
+\sum_{i=1}^{n}y_{i} & = & 1
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+However, this describes a somewhat complicated shape in dimensions greater
+ than two.
+ Consequently, we write
+\begin_inset Formula 
+\begin{eqnarray*}
+z_{i} & \in & \textrm{Unconstrained }n-\textrm{simplex}\\
+y_{i} & = & \left(1-nz_{min}\right)z_{i}+z_{min}\\
+\sum_{i=1}^{n}y_{i} & = & 1-nz_{min}+nz_{min}=1\\
+z_{min}\le & y_{i} & \le1-nz_{min}\\
+nz_{min} & < & 1
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{y_{i}-z_{min}}{\left(1-nz_{min}\right)} & = & z_{i}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The derivatives are
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{dy_{i}}{dx_{j}} & = & \frac{dy_{i}}{dz_{i}}\frac{dz_{i}}{dr_{j}}\frac{dr_{j}}{dx_{j}}\\
+ & = & \alpha_{j}\left(1-nz_{min}\right)\frac{dz_{i}}{dr_{j}}\\
+\frac{d^{2}y_{i}}{dx_{j}dx_{k}} & = & \alpha_{j}\alpha_{k}\left(1-nz_{min}\right)\frac{d^{2}z_{i}}{dr_{j}dr_{k}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Enforcing simplex bounds
+\end_layout
+
+\begin_layout Standard
+It is convenient to be able to convert a generic positive vector to satisfy
+ the simplex bounds.
+ That is, given 
+\begin_inset Formula $\tilde{z}\in\left(\mathbb{R}^{+}\right)^{n}$
+\end_inset
+
+ we want to find 
+\begin_inset Formula $z$
+\end_inset
+
+ such that
+\begin_inset Formula 
+\begin{eqnarray*}
+z_{i} & \ge & \mu_{i},\forall i\\
+\sum z_{i} & = & 1
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Obviously we must have 
+\begin_inset Formula $\sum\mu_{i}\le1$
+\end_inset
+
+.
+ We also want 
+\begin_inset Formula $z$
+\end_inset
+
+ to be close to 
+\begin_inset Formula $\tilde{z}$
+\end_inset
+
+.
+ This is a quadratic program optimization problem with constraints:
+\begin_inset Formula 
+\begin{eqnarray*}
+z & = & \textrm{argmin}\left\{ \frac{1}{2}\sum\left(z_{i}-\tilde{z}_{i}\right)^{2}\right\} \\
+z_{i} & \ge & \mu_{i},\forall i\\
+\sum z_{i} & = & 1
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Lagrangian is
+\begin_inset Formula 
+\begin{eqnarray*}
+L\left(z,\lambda\right) & = & \frac{1}{2}\sum\left(z_{i}-\tilde{z}_{i}\right)^{2}+\sum\lambda_{i}\left(z_{i}-\mu_{i}\right)+\lambda_{0}\left(\sum z_{i}-1\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{\partial L}{\partial z_{i}} & = & z_{i}-\tilde{z}_{i}+\lambda_{i}+\lambda_{0}=0\\
+\sum_{i}z_{i}-\sum_{i}\tilde{z}_{i} & = & -n\lambda_{0}-\sum_{i}\lambda_{i}\\
+-\frac{1}{n}\left(1-\sum_{i}\tilde{z}_{i}\right) & = & \lambda_{0}-\frac{1}{n}\sum_{i}\lambda_{i}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $\lambda_{i}=0$
+\end_inset
+
+ then
+\begin_inset Formula 
+\begin{eqnarray*}
+z_{i} & = & \tilde{z}_{i}+\frac{1}{n}\left(1-\sum_{i}\tilde{z}_{i}\right)\\
+ & = & \tilde{z}_{i}-\frac{1}{n}\sum_{i}\tilde{z}_{i}+\frac{1}{n}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This makes sense.
+ But this is heavier than what we need.
+ We can simply make sure that everything is bigger than its min, and then
+ normalize it in a way that respects the min.
+ Suppose that 
+\begin_inset Formula $\tilde{z}$
+\end_inset
+
+ already has each element with 
+\begin_inset Formula $\tilde{z}_{i}\ge\mu_{i}$
+\end_inset
+
+ .
+ Then
+\begin_inset Formula 
+\begin{eqnarray*}
+z_{i} & = & \mu_{i}+\alpha\left(\tilde{z}_{i}-\mu_{i}\right)\\
+1 & = & \sum\mu_{i}+\alpha\sum\left(\tilde{z}_{i}-\mu_{i}\right)\\
+\alpha & = & \frac{1-\sum\mu_{i}}{\sum\tilde{z}_{i}-\sum\mu_{i}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In our case, 
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+ is all the same, so
+\begin_inset Formula 
+\begin{eqnarray*}
+\alpha & = & \frac{1-n\mu}{\sum\tilde{z}_{i}-n\mu}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Derivative transform
+\end_layout
+
+\begin_layout Standard
+A reminder:
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{dE}{dxdx^{T}} & = & \frac{d}{dx}\left(\left(\frac{dy}{dx^{T}}\right)^{T}\frac{dE}{dy}\right)\\
+ & = & \left(\frac{dy}{dx^{T}}\right)^{T}\frac{d^{2}E}{dydy^{T}}\frac{dy}{dx}+\sum_{i}\frac{dy_{i}}{dxdx^{T}}\frac{dE}{dy_{i}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

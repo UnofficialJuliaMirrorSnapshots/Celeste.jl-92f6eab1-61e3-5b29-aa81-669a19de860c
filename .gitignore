@@ -1,0 +1,25 @@
+# Don't add merge originals.
+**/*.orig
+
+# Don't add emacs temp files.
+**/*~
+
+# omit converage files
+*.cov
+
+# Omit memory profiling output
+**/*.mem
+
+# Require force to add any data
+test/data/*
+
+# Omit deps build products
+deps/*
+
+*.swp
+*.jld
+
+.DS_Store
+.ipynb_checkpoints/
+*.csv
+__pycache__
